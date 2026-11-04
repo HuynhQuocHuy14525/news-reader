@@ -8,8 +8,8 @@ Bài tập lớn môn **Lập trình cho thiết bị di động** (422000181701
 
 | Họ tên | MSSV | GitHub | Phụ trách chính |
 |---|---|---|---|
-| (điền) | (điền) | @(điền) | **A**: tin tức, chuyên mục, tìm kiếm, responsive, build APK |
-| (điền) | (điền) | @(điền) | **B**: điều hướng, tài khoản, bài đã lưu, AI, cài đặt |
+| Huỳnh Quốc Huy | 23654001 | [@HuynhQuocHuy14525](https://github.com/HuynhQuocHuy14525) | **A**: tin tức, chuyên mục, tìm kiếm, responsive, deploy backend, build APK |
+| Đào Tiến Dũng | 23658461 | (điền) | **B**: điều hướng, tài khoản, bài đã lưu, AI, cài đặt |
 
 ## Tính năng
 
@@ -57,7 +57,7 @@ Bài tập lớn môn **Lập trình cho thiết bị di động** (422000181701
 
 ## Danh sách màn hình
 
-Đường dẫn tính từ `mobile/src/app/`.
+Đường dẫn tính từ `mobile/src/app/`. A = Huy, B = Dũng.
 
 | # | Màn hình | File | Phụ trách |
 |---|---|---|---|
@@ -77,7 +77,7 @@ Bài tập lớn môn **Lập trình cho thiết bị di động** (422000181701
 
 ## Kế hoạch 3 tuần
 
-| Tuần | A | B |
+| Tuần | A (Huy) | B (Dũng) |
 |---|---|---|
 | 1 | Backend đọc RSS (`/api/news`), trang chủ, chuyên mục | Thanh tab + điều hướng, đăng ký/đăng nhập |
 | 2 | Chi tiết bài, tìm kiếm, chia 2 cột trên tablet | Bài đã lưu, lịch sử, AI tóm tắt & hỏi đáp |
