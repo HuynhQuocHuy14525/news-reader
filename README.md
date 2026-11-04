@@ -171,6 +171,8 @@ Profile `preview` trong `mobile/eas.json` đã cấu hình build ra APK. Trướ
 - Không commit `.env`, `node_modules/`. Khóa AI chỉ để trong `backend/.env`, không bao giờ để trong app (biến `EXPO_PUBLIC_` bị nhúng vào APK, ai cũng đọc được).
 - Cài thư viện cho app bằng `npx expo install <tên>` thay vì `npm install`, để lấy đúng bản hợp với SDK.
 - Ai làm phần nào tự commit phần đó, để giải thích được khi thầy hỏi.
+- API giữa app và backend ghi trong [docs/api.md](docs/api.md). Đổi API thì sửa file này trong cùng PR.
+- Cả nhóm dùng Claude Code: luật cho AI nằm ở [CLAUDE.md](CLAUDE.md), Claude tự đọc khi mở dự án.
 
 ## Ghi chú Tamagui (config v6)
 
