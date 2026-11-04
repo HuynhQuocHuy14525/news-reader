@@ -1,0 +1,5 @@
+# Giữ ký tự xuống dòng LF cho mọi file văn bản (Windows và Mac làm chung không bị lệch)
+* text=auto eol=lf
+*.png binary
+*.jpg binary
+*.ttf binary
