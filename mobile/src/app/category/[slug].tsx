@@ -3,7 +3,7 @@ import { YStack } from 'tamagui'
 
 import { findCategory } from '@/features/news/categories'
 import { EmptyState } from '@/features/news/components/ListStates'
-import { NewsList } from '@/features/news/components/NewsList'
+import { NewsSplitView } from '@/features/news/components/NewsSplitView'
 import { ScreenHeader } from '@/features/news/components/ScreenHeader'
 import { useNews } from '@/features/news/hooks'
 
@@ -30,7 +30,7 @@ export default function CategoryNewsScreen() {
   return (
     <YStack flex={1} bg="background">
       {header}
-      <NewsList query={news} emptyMessage="Chuyên mục này chưa có bài viết" />
+      <NewsSplitView query={news} emptyMessage="Chuyên mục này chưa có bài viết" />
     </YStack>
   )
 }

@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { Input, Text, XStack, YStack } from 'tamagui'
 
 import { EmptyState } from '@/features/news/components/ListStates'
-import { NewsList } from '@/features/news/components/NewsList'
+import { NewsSplitView } from '@/features/news/components/NewsSplitView'
 import { ScreenHeader } from '@/features/news/components/ScreenHeader'
 import { useSearchNews } from '@/features/news/hooks'
 import { useDebouncedValue } from '@/features/news/use-debounced-value'
@@ -31,7 +31,7 @@ export default function SearchScreen() {
       </ScreenHeader>
 
       {keyword ? (
-        <NewsList query={results} emptyMessage={`Không tìm thấy bài nào có "${keyword}"`} />
+        <NewsSplitView query={results} emptyMessage={`Không tìm thấy bài nào có "${keyword}"`} />
       ) : (
         <YStack flex={1}>
           <YStack px="4" gap="3">

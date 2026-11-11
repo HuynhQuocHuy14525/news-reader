@@ -1,6 +1,6 @@
 import { YStack } from 'tamagui'
 
-import { NewsList } from '@/features/news/components/NewsList'
+import { NewsSplitView } from '@/features/news/components/NewsSplitView'
 import { ScreenHeader } from '@/features/news/components/ScreenHeader'
 import { useNews } from '@/features/news/hooks'
 
@@ -12,7 +12,7 @@ export default function HomeScreen() {
   return (
     <YStack flex={1} bg="background">
       <ScreenHeader title="Tin mới" subtitle={today} />
-      <NewsList query={news} />
+      <NewsSplitView query={news} />
     </YStack>
   )
 }
