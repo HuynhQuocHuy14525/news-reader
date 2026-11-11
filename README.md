@@ -185,4 +185,11 @@ Token viết **không có dấu `$`** và phải dùng tên viết tắt:
 ```
 
 Code mẫu cũ trên mạng dùng `$4`, `alignItems`, `padding` sẽ báo lỗi TypeScript.
+
+Tamagui 3 còn đổi thêm:
+
+- Bỏ `pressStyle`, `hoverStyle`: viết trạng thái ngay trong giá trị, ví dụ `bg="background press:background-press"`, `opacity="1 press:0.8"`.
+- Tên màu có gạch nối: `color-10`, `border-color`, `background-press`.
+- `Button` bỏ `chromeless`, chỉ còn `variant="outlined"`.
+- Trên web, `lineHeight` dạng số không đơn vị bị hiểu là hệ số nhân (xem `ArticleDetailView.tsx`).
 Viết tắt hay dùng: `p` `px` `py` `m` `mx` `my` (padding/margin), `items` `justify` (căn), `bg`, `rounded`, `w` `h`.

@@ -1,4 +1,4 @@
-# Phân công chi tiết
+🟡 ||||||||||# Phân công chi tiết
 
 File này chia phần A (Huy) và B (Dũng) thành từng bước nhỏ. **Mỗi bước là một nhánh và một Pull Request.**
 Claude Code: đọc file này cùng `CLAUDE.md`, `README.md`, `docs/api.md`, rồi làm **bước đầu tiên chưa xong** trong phần của người dùng. Bước nào đang phải chờ phần của người kia thì làm bước khác trước, hoặc tạo dữ liệu giả đúng kiểu trong `mobile/src/types/`.
@@ -14,16 +14,16 @@ Trạng thái: ⬜ chưa làm · 🟡 đang làm / chờ review · ✅ đã merg
 | Bước | Việc | Nhánh | File chính | Trạng thái |
 |---|---|---|---|---|
 | A1 | Backend đọc RSS: `GET /news`, `/news/search`, `/news/:id` | `feature/news-api` | `backend/src/routes/news.js`, `backend/src/services/rss.service.js` | 🟡 |
-| A2 | Gọi API tin tức + hook TanStack Query (`useNews`, `useSearchNews`, `useArticle`) | `feature/news-hooks` | `mobile/src/features/news/api.ts`, `hooks.ts` | ⬜ |
-| A3 | Thẻ bài viết `ArticleCard` + khung chờ tải (skeleton) | `feature/article-card` | `mobile/src/features/news/components/` | ⬜ |
-| A4 | Trang chủ: tin mới, kéo để làm mới, cuộn để tải thêm (xóa file tạm `app/index.tsx`) | `feature/home` | `app/(tabs)/index.tsx` | ⬜ |
-| A5 | Chuyên mục + tin theo chuyên mục | `feature/categories` | `app/(tabs)/categories.tsx`, `app/category/[slug].tsx` | ⬜ |
-| A6 | Tìm kiếm | `feature/search` | `app/(tabs)/search.tsx` | ⬜ |
-| A7 | Chi tiết bài, nút mở bài gốc | `feature/article-detail` | `app/article/[id].tsx` | ⬜ |
-| A8 | Tablet / xoay ngang: lưới nhiều cột, chia 2 cột danh sách \| chi tiết | `feature/responsive` | `mobile/src/hooks/use-responsive.ts`, các màn hình A | ⬜ |
-| A9 | Onboarding: giới thiệu + chọn chủ đề quan tâm | `feature/onboarding` | `app/onboarding.tsx` | ⬜ |
-| A10 | Animation: thẻ bài hiện dần, skeleton | `feature/news-animation` | `mobile/src/features/news/` | ⬜ |
-| A11 | Deploy backend lên mạng (Render hoặc Railway) | `chore/deploy-backend` | | ⬜ |
+| A2 | Gọi API tin tức + hook TanStack Query (`useNews`, `useSearchNews`, `useArticle`) | `feature/news-hooks` | `mobile/src/features/news/api.ts`, `hooks.ts` | 🟡 |
+| A3 | Thẻ bài viết `ArticleCard` + khung chờ tải (skeleton) | `feature/news-card` | `mobile/src/features/news/components/` | 🟡 |
+| A4 | Trang chủ: tin mới, kéo để làm mới, cuộn để tải thêm (xóa file tạm `app/index.tsx`) | `feature/home` | `app/(tabs)/index.tsx` | 🟡 |
+| A5 | Chuyên mục + tin theo chuyên mục | `feature/categories` | `app/(tabs)/categories.tsx`, `app/category/[slug].tsx` | 🟡 |
+| A6 | Tìm kiếm | `feature/search` | `app/(tabs)/search.tsx` | 🟡 |
+| A7 | Chi tiết bài, nút mở bài gốc | `feature/article-detail` | `app/article/[id].tsx` | 🟡 |
+| A8 | Tablet / xoay ngang: lưới nhiều cột, chia 2 cột danh sách \| chi tiết | `feature/responsive` | `mobile/src/hooks/use-responsive.ts`, các màn hình A | 🟡 |
+| A9 | Onboarding: giới thiệu + chọn chủ đề quan tâm | `feature/onboarding` | `app/onboarding.tsx` | 🟡 |
+| A10 | Animation: thẻ bài hiện dần, skeleton | `feature/news-animation` | `mobile/src/features/news/` | 🟡 |
+| A11 | Deploy backend lên mạng (Render hoặc Railway) | `chore/deploy-backend` | | 🟡 |
 | A12 | Build APK bằng EAS, đưa link tải lên README | `chore/build-apk` | `mobile/eas.json` | ⬜ |
 
 ## Phần B – Đào Tiến Dũng
@@ -65,6 +65,7 @@ Phần nào chưa có thì người dùng tạm để trống hoặc dùng dữ 
 | Cá nhân | `(tabs)/profile.tsx` | B |
 
 Màn hình của A chưa có thì Expo Router chỉ báo cảnh báo, B không cần tạo file thay.
+Màn hình của A **tự vẽ tiêu đề** (có chừa tai thỏ), nên `Tabs` đặt `screenOptions={{ headerShown: false }}` để không bị 2 thanh tiêu đề.
 Các màn `article/[id]`, `category/[slug]`, `ai/[id]`, `history`, `settings`, `onboarding`, `(auth)/*` nằm ngoài tab, mở chồng lên trên (Stack ở `app/_layout.tsx`).
 
 ### A làm, B dùng
@@ -105,6 +106,13 @@ Các màn `article/[id]`, `category/[slug]`, `ai/[id]`, `history`, `settings`, `
 - B5, B6 cần A3 (`ArticleCard`). Chưa có thì dùng tạm một `Text` hiện tiêu đề bài.
 - B7 cần A1 (`getArticleDetail`). A1 đã xong, chỉ chờ merge.
 - A7 cần B5, B6, B8, B10. Chưa có thì A để nút giả hoặc dòng `// TODO(B5): BookmarkButton`.
+
+## Ghi chú tiến độ phần A (11/11)
+
+- A1–A10 đã push, mỗi bước một nhánh. Các nhánh **nối tiếp nhau** (nhánh sau tách từ nhánh trước), nên merge theo đúng thứ tự: `docs/phan-cong` → `feature/news-api` → `feature/news-hooks` → `feature/news-card` → `feature/home` → `feature/categories` → `feature/search` → `feature/article-detail` → `feature/responsive` → `feature/onboarding` → `feature/news-animation` → `chore/deploy-backend` → `docs/cap-nhat-tien-do`.
+- Nhánh `feature/article-card` trên GitHub là bản cũ của A3, đã thay bằng `feature/news-card`, có thể xóa.
+- B dùng được ngay: `ArticleCard` (`features/news/components/ArticleCard.tsx`), `getArticleDetail` (backend), AsyncStorage đã cài sẵn (A9).
+- Màn chi tiết bài (`ArticleDetailView.tsx`) có sẵn chỗ chờ `TODO(B5)`, `TODO(B8)`, `TODO(B10)` cho phần của Dũng.
 
 ## Cần chốt
 
