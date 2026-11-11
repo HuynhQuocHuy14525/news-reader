@@ -22,18 +22,25 @@ const SOURCES = [
     name: 'VnExpress',
     rssBase: 'https://vnexpress.net/rss/',
     feeds: { 'cong-nghe': 'so-hoa' },
+    // Các đoạn văn trên trang bài gốc, dùng cho /news/:id.
+    // VnExpress ghi chú thích ảnh bằng p.Image nên lấy mọi p.Normal (kể cả trong bài ảnh)
+    contentSelector: '.fck_detail p.Normal',
   },
   {
     id: 'tuoitre',
     name: 'Tuổi Trẻ',
     rssBase: 'https://tuoitre.vn/rss/',
     feeds: { 'cong-nghe': 'nhip-song-so' },
+    // '>' chỉ lấy đoạn văn trực tiếp, bỏ chú thích ảnh nằm trong <figure>
+    contentSelector: '[data-role="content"] > p',
   },
   {
     id: 'thanhnien',
     name: 'Thanh Niên',
     rssBase: 'https://thanhnien.vn/rss/',
     feeds: { 'kinh-doanh': 'kinh-te' },
+    // '>' chỉ lấy đoạn văn trực tiếp, bỏ chú thích ảnh nằm trong <figure>
+    contentSelector: '[data-role="content"] > p',
   },
 ]
 
@@ -48,6 +55,8 @@ const xmlParser = new XMLParser({ ignoreAttributes: false, attributeNamePrefix: 
 const feedCache = new Map()
 /** id -> Article, để /news/:id tìm lại được link bài gốc */
 const articleById = new Map()
+/** id -> ArticleDetail. Nội dung bài ít khi đổi nên giữ luôn, không hết hạn */
+const detailById = new Map()
 
 export async function fetchText(url) {
   const res = await fetch(url, {
@@ -175,4 +184,37 @@ export async function searchArticles(q) {
   if (!phrase.trim()) return []
   const articles = await getArticles()
   return articles.filter((a) => normalize(`${a.title} ${a.summary}`).includes(phrase))
+}
+
+/**
+ * Lấy bài đầy đủ (ArticleDetail) theo id: tìm link gốc rồi tải trang báo để lấy nội dung.
+ * Trả về null nếu không có bài nào mang id này.
+ * Phần AI (ai.service) cũng dùng hàm này để lấy nội dung bài.
+ */
+export async function getArticleDetail(id) {
+  if (detailById.has(id)) return detailById.get(id)
+
+  // Server vừa khởi động thì chưa có bài nào trong bộ nhớ, đọc RSS trước
+  if (!articleById.has(id)) await getArticles()
+  const article = articleById.get(id)
+  if (!article) return null
+
+  const source = SOURCES.find((s) => s.id === article.source)
+  let content = ''
+  try {
+    const $ = cheerio.load(await fetchText(article.url))
+    content = $(source.contentSelector)
+      .map((_, el) => $(el).text().replace(/\s+/g, ' ').trim())
+      .get()
+      .filter(Boolean)
+      .join('\n\n')
+  } catch (err) {
+    console.warn('[rss] không tải được bài gốc', article.url, err.message)
+  }
+
+  // Trang báo đổi giao diện hoặc lỗi mạng: vẫn trả về mô tả ngắn để app hiển thị được
+  const detail = { ...article, content: content || article.summary }
+  // Chỉ lưu khi lấy được nội dung thật, để lần sau còn thử lại
+  if (content) detailById.set(id, detail)
+  return detail
 }

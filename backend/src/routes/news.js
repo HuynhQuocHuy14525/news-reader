@@ -1,6 +1,6 @@
 import { Router } from 'express'
 
-import { CATEGORY_SLUGS, getArticles, searchArticles } from '../services/rss.service.js'
+import { CATEGORY_SLUGS, getArticleDetail, getArticles, searchArticles } from '../services/rss.service.js'
 
 const router = Router()
 
@@ -45,6 +45,13 @@ router.get('/search', async (req, res) => {
   if (!q) return sendError(res, 400, 'Vui lòng nhập từ khóa tìm kiếm')
   const articles = await searchArticles(q)
   res.json(paginate(articles, readPaging(req.query)))
+})
+
+// GET /api/news/a1b2c3d4e5f6
+router.get('/:id', async (req, res) => {
+  const article = await getArticleDetail(req.params.id)
+  if (!article) return sendError(res, 404, 'Không tìm thấy bài viết')
+  res.json(article)
 })
 
 // Express 5 tự chuyển lỗi của hàm async tới đây; trả đúng dạng lỗi chung của API
