@@ -39,7 +39,8 @@ export function ArticleCard({ article, onPress }: ArticleCardProps) {
         contentFit="cover"
         transition={200}
       />
-      <YStack flex={1} gap="1" justify="space-between">
+      {/* minW={0}: cho phép cột chữ co lại để tiêu đề xuống dòng thay vì tràn ra ngoài */}
+      <YStack flex={1} minW={0} gap="1" justify="space-between">
         <Text fontWeight="600" numberOfLines={3}>
           {article.title}
         </Text>
