@@ -1,11 +1,24 @@
-import { useWindowDimensions } from 'react-native'
+import { useEffect, useState } from 'react'
+import { Platform, useWindowDimensions } from 'react-native'
 
 // Từ 768px trở lên (tablet, hoặc điện thoại xoay ngang) thì chia 2 cột danh sách | chi tiết
 const TABLET_MIN_WIDTH = 768
 
+/**
+ * Bản web dựng HTML sẵn trên máy chủ, lúc đó chưa biết màn hình rộng bao nhiêu.
+ * Lần vẽ đầu trên web phải giống máy chủ (coi như màn hẹp), vẽ xong mới dùng độ rộng thật,
+ * nếu không React báo lỗi "Hydration failed". Trên điện thoại không có bước này.
+ */
+function useIsMounted() {
+  const [mounted, setMounted] = useState(Platform.OS !== 'web')
+  useEffect(() => setMounted(true), [])
+  return mounted
+}
+
 export function useResponsive() {
   const { width, height } = useWindowDimensions()
-  const isWide = width >= TABLET_MIN_WIDTH
+  const mounted = useIsMounted()
+  const isWide = mounted && width >= TABLET_MIN_WIDTH
   return {
     width,
     height,
