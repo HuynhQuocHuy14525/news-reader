@@ -19,13 +19,21 @@ interface NewsListProps {
   /** Phần hiện phía trên danh sách, cuộn cùng danh sách (ví dụ tiêu đề) */
   header?: ReactElement
   onPressArticle?: (article: Article) => void
+  /** id bài đang mở ở cột phải (màn rộng) */
+  selectedId?: string
 }
 
 /**
  * Danh sách bài dùng chung cho trang chủ, chuyên mục, tìm kiếm.
  * Tự lo: đang tải (skeleton), lỗi (nút thử lại), trống, kéo để làm mới, cuộn để tải thêm.
  */
-export function NewsList({ query, emptyMessage = 'Chưa có bài viết nào', header, onPressArticle }: NewsListProps) {
+export function NewsList({
+  query,
+  emptyMessage = 'Chưa có bài viết nào',
+  header,
+  onPressArticle,
+  selectedId,
+}: NewsListProps) {
   const { data, isPending, isError, error, refetch, fetchNextPage, hasNextPage, isFetchingNextPage } = query
   // Tự giữ trạng thái kéo làm mới, vì isRefetching cũng bật khi app tự tải lại ngầm
   const [refreshing, setRefreshing] = useState(false)
@@ -68,7 +76,11 @@ export function NewsList({ query, emptyMessage = 'Chưa có bài viết nào', h
     <FlatList
       data={articles}
       keyExtractor={(item) => item.id}
-      renderItem={({ item }) => <ArticleCard article={item} onPress={onPressArticle} />}
+      renderItem={({ item }) => (
+        <ArticleCard article={item} onPress={onPressArticle} selected={item.id === selectedId} />
+      )}
+      // Báo FlatList vẽ lại khi đổi bài đang chọn
+      extraData={selectedId}
       ItemSeparatorComponent={() => <Separator mx="3" />}
       ListHeaderComponent={header}
       ListEmptyComponent={<EmptyState message={emptyMessage} />}
