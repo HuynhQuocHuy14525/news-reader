@@ -1,9 +1,9 @@
-import { useInfiniteQuery } from '@tanstack/react-query'
+import { useInfiniteQuery, useQuery } from '@tanstack/react-query'
 
 import type { CategorySlug } from '@/constants/categories'
 import type { Article, Paginated } from '@/types/article'
 
-import { fetchNews, searchNews } from './api'
+import { fetchArticle, fetchNews, searchNews } from './api'
 
 // Key của cache TanStack Query. Gom một chỗ để làm mới (invalidate) đúng nhóm dữ liệu
 export const newsKeys = {
@@ -43,5 +43,15 @@ export function useSearchNews(q: string) {
     initialPageParam: 1,
     getNextPageParam: nextPage,
     enabled: query.length > 0,
+  })
+}
+
+/** Bài đầy đủ (có nội dung) cho màn chi tiết. Nội dung bài ít đổi nên giữ cache 10 phút */
+export function useArticle(id: string | undefined) {
+  return useQuery({
+    queryKey: newsKeys.detail(id ?? ''),
+    queryFn: () => fetchArticle(id!),
+    enabled: !!id,
+    staleTime: 10 * 60 * 1000,
   })
 }
