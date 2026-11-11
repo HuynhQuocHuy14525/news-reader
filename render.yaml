@@ -1,0 +1,18 @@
+# Cấu hình deploy backend lên Render (https://render.com), gói miễn phí.
+# Render đọc file này khi tạo "Blueprint" từ repo GitHub.
+services:
+  - type: web
+    name: news-reader-backend
+    runtime: node
+    plan: free
+    rootDir: backend
+    buildCommand: npm ci
+    startCommand: npm start
+    # Render gọi đường dẫn này để biết server đã chạy chưa
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_VERSION
+        value: "22"
+      # Khóa AI của phần B (Dũng): nhập trên trang Render, không ghi vào file này
+      - key: AI_API_KEY
+        sync: false
