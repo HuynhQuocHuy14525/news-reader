@@ -16,3 +16,6 @@ services:
       # Khóa AI của phần B (Dũng): nhập trên trang Render, không ghi vào file này
       - key: AI_API_KEY
         sync: false
+      # Khóa ký token đăng nhập của phần B: Render tự tạo chuỗi ngẫu nhiên
+      - key: JWT_SECRET
+        generateValue: true

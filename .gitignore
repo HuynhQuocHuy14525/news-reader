@@ -3,3 +3,6 @@ node_modules/
 .DS_Store
 Thumbs.db
 *.log
+
+# Dữ liệu backend lưu dạng file JSON (người dùng, bài đã lưu)
+backend/data/
