@@ -22,12 +22,13 @@ function nextPage(last: Paginated<Article>) {
  * Tin mới nhất (hoặc theo chuyên mục), tải thêm từng trang khi cuộn.
  * Màn hình dùng: data.pages.flatMap(p => p.items), fetchNextPage(), refetch()
  */
-export function useNews(category?: CategorySlug) {
+export function useNews(category?: CategorySlug, options: { enabled?: boolean } = {}) {
   return useInfiniteQuery({
     queryKey: newsKeys.list(category),
     queryFn: ({ pageParam }) => fetchNews({ category, page: pageParam }),
     initialPageParam: 1,
     getNextPageParam: nextPage,
+    enabled: options.enabled ?? true,
   })
 }
 
