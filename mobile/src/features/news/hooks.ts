@@ -3,7 +3,7 @@ import { useInfiniteQuery } from '@tanstack/react-query'
 import type { CategorySlug } from '@/constants/categories'
 import type { Article, Paginated } from '@/types/article'
 
-import { fetchNews } from './api'
+import { fetchNews, searchNews } from './api'
 
 // Key của cache TanStack Query. Gom một chỗ để làm mới (invalidate) đúng nhóm dữ liệu
 export const newsKeys = {
@@ -28,5 +28,20 @@ export function useNews(category?: CategorySlug) {
     queryFn: ({ pageParam }) => fetchNews({ category, page: pageParam }),
     initialPageParam: 1,
     getNextPageParam: nextPage,
+  })
+}
+
+/**
+ * Tìm bài theo từ khóa. Từ khóa rỗng thì không gọi API.
+ * Màn hình nên debounce (chờ người dùng ngừng gõ) rồi mới truyền q vào đây.
+ */
+export function useSearchNews(q: string) {
+  const query = q.trim()
+  return useInfiniteQuery({
+    queryKey: newsKeys.search(query),
+    queryFn: ({ pageParam }) => searchNews({ q: query, page: pageParam }),
+    initialPageParam: 1,
+    getNextPageParam: nextPage,
+    enabled: query.length > 0,
   })
 }
