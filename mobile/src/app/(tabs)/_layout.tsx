@@ -1,6 +1,7 @@
 import { Tabs } from 'expo-router'
 import { SymbolView, type SymbolViewProps } from 'expo-symbols'
 import type { ColorValue } from 'react-native'
+import { useTheme } from 'tamagui'
 
 // Vẽ icon cho tab. name có 2 tên: iOS dùng SF Symbols, Android dùng Material Symbols.
 // color và size do Tabs truyền vào (tab đang chọn có màu khác)
@@ -12,9 +13,18 @@ function tabIcon(name: SymbolViewProps['name']) {
 
 // Thanh tab dưới cùng: 5 tab theo đúng thứ tự trong docs/phan-cong.md
 export default function TabsLayout() {
+  // Lấy màu từ theme Tamagui để thanh tab đổi theo giao diện sáng/tối
+  const theme = useTheme()
   return (
-    // Các màn hình tự vẽ tiêu đề nên tắt tiêu đề mặc định của Tabs
-    <Tabs screenOptions={{ headerShown: false }}>
+    <Tabs
+      screenOptions={{
+        // Các màn hình tự vẽ tiêu đề nên tắt tiêu đề mặc định của Tabs
+        headerShown: false,
+        tabBarActiveTintColor: theme.color.val,
+        tabBarInactiveTintColor: theme['color-10'].val,
+        tabBarStyle: { backgroundColor: theme.background.val, borderTopColor: theme['color-4'].val },
+      }}
+    >
       <Tabs.Screen
         name="index"
         options={{ title: 'Trang chủ', tabBarIcon: tabIcon({ ios: 'house.fill', android: 'home' }) }}
