@@ -9,7 +9,7 @@ Bài tập lớn môn **Lập trình cho thiết bị di động** (422000181701
 | Họ tên | MSSV | GitHub | Phụ trách chính |
 |---|---|---|---|
 | Huỳnh Quốc Huy | 23654001 | [@HuynhQuocHuy14525](https://github.com/HuynhQuocHuy14525) | **A**: tin tức, chuyên mục, tìm kiếm, responsive, deploy backend, build APK |
-| Đào Tiến Dũng | 23658461 | (điền) | **B**: điều hướng, tài khoản, bài đã lưu, AI, cài đặt |
+| Đào Tiến Dũng | 23658461 | [@dunghdtt](https://github.com/dunghdtt) | **B**: điều hướng, tài khoản, bài đã lưu, AI, cài đặt |
 
 ## Tính năng
 
