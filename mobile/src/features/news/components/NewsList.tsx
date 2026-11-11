@@ -1,14 +1,21 @@
 import type { InfiniteData, UseInfiniteQueryResult } from '@tanstack/react-query'
 import { useState, type ReactElement } from 'react'
 import { FlatList, RefreshControl } from 'react-native'
+import Animated, { FadeInDown } from 'react-native-reanimated'
 import { Separator, Spinner, YStack } from 'tamagui'
 
 import type { Article, Paginated } from '@/types/article'
 
+import { NEWS_PAGE_SIZE } from '../api'
 import { getErrorMessage } from '../errors'
 import { ArticleCard } from './ArticleCard'
 import { ArticleListSkeleton } from './ArticleCardSkeleton'
 import { EmptyState, ErrorState } from './ListStates'
+
+/** Các bài đầu tiên hiện lần lượt, cách nhau 50ms; từ bài thứ 8 trở đi hiện luôn để khỏi chờ lâu */
+function enterAnimation(index: number) {
+  return FadeInDown.duration(300).delay(Math.min(index, 8) * 50)
+}
 
 type NewsQuery = UseInfiniteQueryResult<InfiniteData<Paginated<Article>>>
 
@@ -76,8 +83,11 @@ export function NewsList({
     <FlatList
       data={articles}
       keyExtractor={(item) => item.id}
-      renderItem={({ item }) => (
-        <ArticleCard article={item} onPress={onPressArticle} selected={item.id === selectedId} />
+      renderItem={({ item, index }) => (
+        // Bài hiện dần và trượt lên nhẹ khi xuất hiện
+        <Animated.View entering={enterAnimation(index % NEWS_PAGE_SIZE)}>
+          <ArticleCard article={item} onPress={onPressArticle} selected={item.id === selectedId} />
+        </Animated.View>
       )}
       // Báo FlatList vẽ lại khi đổi bài đang chọn
       extraData={selectedId}
