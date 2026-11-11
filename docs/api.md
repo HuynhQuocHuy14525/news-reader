@@ -19,6 +19,12 @@ Kiểu dữ liệu tương ứng nằm ở `mobile/src/types/`.
 
 `id` do backend tạo từ link bài gốc, nên cùng một bài thì `id` luôn giống nhau.
 
+- Nguồn: VnExpress, Tuổi Trẻ, Thanh Niên. Backend đọc lại RSS mỗi 5 phút.
+- `limit` tối đa 50. `category` sai slug trả về `400`.
+- `/news/search` tìm cả cụm từ trong tiêu đề và mô tả, không phân biệt dấu (`bong da` tìm được "bóng đá").
+- `/news/:id` không có bài thì trả về `404`. Nếu không tải được trang báo gốc, `content` là đoạn mô tả ngắn.
+- Phần AI lấy nội dung bài bằng `getArticleDetail(id)` trong `backend/src/services/rss.service.js` (trả về `null` nếu không có bài).
+
 Ví dụ một `Article`:
 
 ```json
