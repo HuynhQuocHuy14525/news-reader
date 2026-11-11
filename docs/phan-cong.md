@@ -32,7 +32,7 @@ Trạng thái: ⬜ chưa làm · 🟡 đang làm / chờ review · ✅ đã merg
 |---|---|---|---|---|
 | B1 | Thanh tab 5 tab (xem mục "Thanh tab" bên dưới) | `feature/tabs-navigation` | `app/(tabs)/_layout.tsx` | ✅ |
 | B2 | Backend tài khoản: `POST /auth/register`, `POST /auth/login`, `GET /auth/me` + middleware kiểm tra token | `feature/auth-api` | `backend/src/routes/auth.js` | ✅ |
-| B3 | App tài khoản: gọi API, lưu token trên máy, màn đăng nhập/đăng ký | `feature/auth` | `mobile/src/features/auth/`, `app/(auth)/login.tsx`, `register.tsx` | ⬜ |
+| B3 | App tài khoản: gọi API, lưu token trên máy, màn đăng nhập/đăng ký | `feature/auth` | `mobile/src/features/auth/`, `app/(auth)/login.tsx`, `register.tsx` | ✅ |
 | B4 | Backend bài đã lưu: `GET/POST /bookmarks`, `DELETE /bookmarks/:articleId` 🔒 | `feature/bookmarks-api` | `backend/src/routes/bookmarks.js` | ⬜ |
 | B5 | App bài đã lưu: nút `BookmarkButton` + màn bài đã lưu | `feature/bookmarks` | `mobile/src/features/bookmarks/`, `app/(tabs)/bookmarks.tsx` | ⬜ |
 | B6 | Lịch sử đọc (lưu trên máy bằng AsyncStorage) | `feature/history` | `mobile/src/features/bookmarks/` hoặc `features/history/`, `app/history.tsx` | ⬜ |
