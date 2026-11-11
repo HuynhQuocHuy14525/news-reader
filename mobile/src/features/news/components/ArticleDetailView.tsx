@@ -1,6 +1,6 @@
 import { Image } from 'expo-image'
 import { openBrowserAsync } from 'expo-web-browser'
-import { ScrollView } from 'react-native'
+import { Platform, ScrollView } from 'react-native'
 import { Button, Spinner, Text, XStack, YStack } from 'tamagui'
 
 import type { ArticleDetail } from '@/types/article'
@@ -13,6 +13,13 @@ import { ErrorState } from './ListStates'
 
 // Cỡ chữ nội dung bài. TODO(B10): thay bằng useFontSize() khi phần Cài đặt của Dũng xong
 const BODY_FONT_SIZE = 17
+/**
+ * Khoảng cách dòng = cỡ chữ x hệ số. Trên điện thoại lineHeight tính bằng px,
+ * còn trên web một số không có đơn vị được hiểu là hệ số nhân, nên phải tách 2 trường hợp.
+ */
+function lineHeight(fontSize: number, ratio: number) {
+  return Platform.OS === 'web' ? ratio : Math.round(fontSize * ratio)
+}
 
 /**
  * Nội dung một bài: ảnh, tiêu đề, nguồn, các đoạn văn, nút mở bài gốc.
@@ -42,18 +49,18 @@ export function ArticleDetailView({ id }: { id: string }) {
       )}
       <YStack p="4" gap="4" maxW={760} w="100%" self="center">
         <ArticleMeta article={article} />
-        <Text fontSize="2xl" fontWeight="800" lineHeight="xs">
+        <Text fontSize={24} fontWeight="800" lineHeight={lineHeight(24, 1.3)}>
           {article.title}
         </Text>
         {/* Đoạn mô tả in đậm như sapo của báo */}
-        <Text fontWeight="600" style={{ fontSize: BODY_FONT_SIZE, lineHeight: BODY_FONT_SIZE * 1.6 }}>
+        <Text fontWeight="600" fontSize={BODY_FONT_SIZE} lineHeight={lineHeight(BODY_FONT_SIZE, 1.6)}>
           {article.summary}
         </Text>
         {article.content
           .split('\n\n')
           .filter((p) => p !== article.summary)
           .map((paragraph, i) => (
-            <Text key={i} style={{ fontSize: BODY_FONT_SIZE, lineHeight: BODY_FONT_SIZE * 1.6 }}>
+            <Text key={i} fontSize={BODY_FONT_SIZE} lineHeight={lineHeight(BODY_FONT_SIZE, 1.6)}>
               {paragraph}
             </Text>
           ))}
