@@ -1,6 +1,6 @@
 import { Router } from 'express'
 
-import { CATEGORY_SLUGS, getArticles } from '../services/rss.service.js'
+import { CATEGORY_SLUGS, getArticles, searchArticles } from '../services/rss.service.js'
 
 const router = Router()
 
@@ -35,6 +35,15 @@ router.get('/', async (req, res) => {
     return sendError(res, 400, `Chuyên mục "${category}" không tồn tại`)
   }
   const articles = await getArticles(category)
+  res.json(paginate(articles, readPaging(req.query)))
+})
+
+// GET /api/news/search?q=bong da&page=1
+// Phải khai báo trước /:id, nếu không "search" sẽ bị hiểu là một id
+router.get('/search', async (req, res) => {
+  const q = typeof req.query.q === 'string' ? req.query.q.trim() : ''
+  if (!q) return sendError(res, 400, 'Vui lòng nhập từ khóa tìm kiếm')
+  const articles = await searchArticles(q)
   res.json(paginate(articles, readPaging(req.query)))
 })
 

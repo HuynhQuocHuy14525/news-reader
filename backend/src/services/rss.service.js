@@ -153,3 +153,26 @@ export async function getArticles(category) {
     .filter((a) => !seen.has(a.id) && seen.add(a.id))
     .sort((a, b) => b.publishedAt.localeCompare(a.publishedAt))
 }
+
+/**
+ * "Bóng Đá, U23!" -> " bong da u23 ": bỏ dấu, chữ thường, dấu câu thành khoảng trắng.
+ * Thêm khoảng trắng 2 đầu để so khớp nguyên từ.
+ */
+function normalize(text) {
+  const plain = text
+    .normalize('NFD')
+    .replace(/[̀-ͯ]/g, '')
+    .replace(/[đĐ]/g, 'd')
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, ' ')
+    .trim()
+  return ` ${plain} `
+}
+
+/** Tìm bài có cả cụm từ khóa (nguyên từ, không phân biệt dấu) trong tiêu đề hoặc mô tả */
+export async function searchArticles(q) {
+  const phrase = normalize(q)
+  if (!phrase.trim()) return []
+  const articles = await getArticles()
+  return articles.filter((a) => normalize(`${a.title} ${a.summary}`).includes(phrase))
+}
