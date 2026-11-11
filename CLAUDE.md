@@ -2,6 +2,7 @@
 
 Bài tập lớn môn Lập trình thiết bị di động, **2 người làm chung repo này, mỗi người dùng Claude Code riêng**.
 Đọc `README.md` (yêu cầu của thầy, danh sách màn hình, kế hoạch) và `docs/api.md` (hợp đồng API) trước khi làm.
+Các bước nhỏ của từng người và chỗ nối giữa 2 phần nằm trong `docs/phan-cong.md`. Khi người dùng không nói rõ làm gì, làm bước đầu tiên chưa xong trong phần của họ.
 
 ## Bạn đang làm việc với ai
 
