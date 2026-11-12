@@ -1,4 +1,4 @@
-🟡 ||||||||||# Phân công chi tiết
+# Phân công chi tiết
 
 File này chia phần A (Huy) và B (Dũng) thành từng bước nhỏ. **Mỗi bước là một nhánh và một Pull Request.**
 Claude Code: đọc file này cùng `CLAUDE.md`, `README.md`, `docs/api.md`, rồi làm **bước đầu tiên chưa xong** trong phần của người dùng. Bước nào đang phải chờ phần của người kia thì làm bước khác trước, hoặc tạo dữ liệu giả đúng kiểu trong `mobile/src/types/`.
@@ -13,16 +13,16 @@ Trạng thái: ⬜ chưa làm · 🟡 đang làm / chờ review · ✅ đã merg
 
 | Bước | Việc | Nhánh | File chính | Trạng thái |
 |---|---|---|---|---|
-| A1 | Backend đọc RSS: `GET /news`, `/news/search`, `/news/:id` | `feature/news-api` | `backend/src/routes/news.js`, `backend/src/services/rss.service.js` | 🟡 |
-| A2 | Gọi API tin tức + hook TanStack Query (`useNews`, `useSearchNews`, `useArticle`) | `feature/news-hooks` | `mobile/src/features/news/api.ts`, `hooks.ts` | 🟡 |
-| A3 | Thẻ bài viết `ArticleCard` + khung chờ tải (skeleton) | `feature/news-card` | `mobile/src/features/news/components/` | 🟡 |
-| A4 | Trang chủ: tin mới, kéo để làm mới, cuộn để tải thêm (xóa file tạm `app/index.tsx`) | `feature/home` | `app/(tabs)/index.tsx` | 🟡 |
-| A5 | Chuyên mục + tin theo chuyên mục | `feature/categories` | `app/(tabs)/categories.tsx`, `app/category/[slug].tsx` | 🟡 |
-| A6 | Tìm kiếm | `feature/search` | `app/(tabs)/search.tsx` | 🟡 |
-| A7 | Chi tiết bài, nút mở bài gốc | `feature/article-detail` | `app/article/[id].tsx` | 🟡 |
-| A8 | Tablet / xoay ngang: lưới nhiều cột, chia 2 cột danh sách \| chi tiết | `feature/responsive` | `mobile/src/hooks/use-responsive.ts`, các màn hình A | 🟡 |
-| A9 | Onboarding: giới thiệu + chọn chủ đề quan tâm | `feature/onboarding` | `app/onboarding.tsx` | 🟡 |
-| A10 | Animation: thẻ bài hiện dần, skeleton | `feature/news-animation` | `mobile/src/features/news/` | 🟡 |
+| A1 | Backend đọc RSS: `GET /news`, `/news/search`, `/news/:id` | `feature/news-api` | `backend/src/routes/news.js`, `backend/src/services/rss.service.js` | ✅ |
+| A2 | Gọi API tin tức + hook TanStack Query (`useNews`, `useSearchNews`, `useArticle`) | `feature/news-hooks` | `mobile/src/features/news/api.ts`, `hooks.ts` | ✅ |
+| A3 | Thẻ bài viết `ArticleCard` + khung chờ tải (skeleton) | `feature/news-card` | `mobile/src/features/news/components/` | ✅ |
+| A4 | Trang chủ: tin mới, kéo để làm mới, cuộn để tải thêm (xóa file tạm `app/index.tsx`) | `feature/home` | `app/(tabs)/index.tsx` | ✅ |
+| A5 | Chuyên mục + tin theo chuyên mục | `feature/categories` | `app/(tabs)/categories.tsx`, `app/category/[slug].tsx` | ✅ |
+| A6 | Tìm kiếm | `feature/search` | `app/(tabs)/search.tsx` | ✅ |
+| A7 | Chi tiết bài, nút mở bài gốc | `feature/article-detail` | `app/article/[id].tsx` | ✅ |
+| A8 | Tablet / xoay ngang: lưới nhiều cột, chia 2 cột danh sách \| chi tiết | `feature/responsive` | `mobile/src/hooks/use-responsive.ts`, các màn hình A | ✅ |
+| A9 | Onboarding: giới thiệu + chọn chủ đề quan tâm | `feature/onboarding` | `app/onboarding.tsx` | ✅ |
+| A10 | Animation: thẻ bài hiện dần, skeleton | `feature/news-animation` | `mobile/src/features/news/` | ✅ |
 | A11 | Deploy backend lên mạng (Render hoặc Railway) | `chore/deploy-backend` | | 🟡 |
 | A12 | Build APK bằng EAS, đưa link tải lên README | `chore/build-apk` | `mobile/eas.json` | ⬜ |
 
