@@ -11,7 +11,7 @@
     "preview": {
       "distribution": "internal",
       "android": { "buildType": "apk" },
-      "env": { "EXPO_PUBLIC_API_URL": "https://<backend-da-deploy>/api" }
+      "env": { "EXPO_PUBLIC_API_URL": "https://news-reader-backend-itbi.onrender.com/api" }
     },
     "production": {
       "autoIncrement": true
