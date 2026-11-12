@@ -23,8 +23,8 @@ Trạng thái: ⬜ chưa làm · 🟡 đang làm / chờ review · ✅ đã merg
 | A8 | Tablet / xoay ngang: lưới nhiều cột, chia 2 cột danh sách \| chi tiết | `feature/responsive` | `mobile/src/hooks/use-responsive.ts`, các màn hình A | ✅ |
 | A9 | Onboarding: giới thiệu + chọn chủ đề quan tâm | `feature/onboarding` | `app/onboarding.tsx` | ✅ |
 | A10 | Animation: thẻ bài hiện dần, skeleton | `feature/news-animation` | `mobile/src/features/news/` | ✅ |
-| A11 | Deploy backend lên mạng (Render hoặc Railway) | `chore/deploy-backend` | | 🟡 |
-| A12 | Build APK bằng EAS, đưa link tải lên README | `chore/build-apk` | `mobile/eas.json` | ⬜ |
+| A11 | Deploy backend lên mạng (Render hoặc Railway) | `chore/deploy-backend` | `render.yaml` | ✅ |
+| A12 | Build APK bằng EAS, đưa link tải lên README | `chore/build-apk` | `mobile/eas.json` | 🟡 |
 
 ## Phần B – Đào Tiến Dũng
 

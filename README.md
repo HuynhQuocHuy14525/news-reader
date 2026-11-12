@@ -157,7 +157,9 @@ npx eas-cli@latest login
 npx eas-cli@latest build -p android --profile preview
 ```
 
-Profile `preview` trong `mobile/eas.json` đã cấu hình build ra APK. Trước khi build, sửa `EXPO_PUBLIC_API_URL` trong đó thành địa chỉ backend đã deploy. File `.env` nằm trong `.gitignore` nên EAS không mang lên máy build. Backend phải chạy online (ví dụ Render, Railway) thì APK cài trên máy khác mới gọi được API.
+Profile `preview` trong `mobile/eas.json` đã cấu hình build ra APK. Trước khi build, sửa `EXPO_PUBLIC_API_URL` trong đó thành địa chỉ backend đã deploy. File `.env` nằm trong `.gitignore` nên EAS không mang lên máy build. Backend phải chạy online thì APK cài trên máy khác mới gọi được API.
+
+**Backend đã deploy:** https://news-reader-backend-itbi.onrender.com/api (gói miễn phí của Render, sau 15 phút không dùng sẽ ngủ, lần gọi đầu mất khoảng 50 giây).
 
 **Link tải APK:** _(cập nhật sau khi build)_
 
