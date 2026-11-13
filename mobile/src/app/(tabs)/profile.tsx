@@ -50,6 +50,10 @@ export default function ProfileScreen() {
             </Button>
           </>
         )}
+        {/* Lịch sử lưu trên máy nên xem được cả khi chưa đăng nhập */}
+        <Button variant="outlined" onPress={() => router.push('/history' as Href)}>
+          🕘 Lịch sử đọc
+        </Button>
       </YStack>
     </YStack>
   )

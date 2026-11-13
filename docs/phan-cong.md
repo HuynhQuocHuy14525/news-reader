@@ -35,7 +35,7 @@ Trạng thái: ⬜ chưa làm · 🟡 đang làm / chờ review · ✅ đã merg
 | B3 | App tài khoản: gọi API, lưu token trên máy, màn đăng nhập/đăng ký | `feature/auth` | `mobile/src/features/auth/`, `app/(auth)/login.tsx`, `register.tsx` | ✅ |
 | B4 | Backend bài đã lưu: `GET/POST /bookmarks`, `DELETE /bookmarks/:articleId` 🔒 | `feature/bookmarks-api` | `backend/src/routes/bookmarks.js` | ✅ |
 | B5 | App bài đã lưu: nút `BookmarkButton` + màn bài đã lưu | `feature/bookmarks` | `mobile/src/features/bookmarks/`, `app/(tabs)/bookmarks.tsx` | ✅ |
-| B6 | Lịch sử đọc (lưu trên máy bằng AsyncStorage) | `feature/history` | `mobile/src/features/bookmarks/` hoặc `features/history/`, `app/history.tsx` | ⬜ |
+| B6 | Lịch sử đọc (lưu trên máy bằng AsyncStorage) | `feature/history` | `mobile/src/features/bookmarks/` hoặc `features/history/`, `app/history.tsx` | ✅ |
 | B7 | Backend AI: `POST /ai/summary`, `POST /ai/chat` | `feature/ai-api` | `backend/src/routes/ai.js`, `backend/src/services/ai.service.js` | ⬜ |
 | B8 | App AI: màn tóm tắt & hỏi đáp (modal) | `feature/ai` | `mobile/src/features/ai/`, `app/ai/[id].tsx` | ⬜ |
 | B9 | Màn cá nhân: thông tin tài khoản, link tới lịch sử, cài đặt, đăng xuất | `feature/profile` | `app/(tabs)/profile.tsx` | ⬜ |
