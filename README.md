@@ -161,7 +161,7 @@ Profile `preview` trong `mobile/eas.json` đã cấu hình build ra APK. Trướ
 
 **Backend đã deploy:** https://news-reader-backend-itbi.onrender.com/api (gói miễn phí của Render, sau 15 phút không dùng sẽ ngủ, lần gọi đầu mất khoảng 50 giây).
 
-**Link tải APK:** _(cập nhật sau khi build)_
+**Link tải APK:** https://expo.dev/accounts/huynhquochuy/projects/news-reader/builds/7dbb065c-1fff-4f0d-a5fd-e04deddaf4d5 (mở trên điện thoại, bấm **Install**; hoặc quét mã QR trên trang bằng camera)
 
 ## Quy ước làm việc nhóm
 
