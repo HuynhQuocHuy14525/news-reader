@@ -15,6 +15,16 @@ export const CATEGORY_SLUGS = [
   'giao-duc',
 ]
 
+// Tuổi Trẻ và Thanh Niên dùng chung giao diện. '>' chỉ lấy đoạn văn trực tiếp trong bài,
+// ảnh nằm trong <figure> hoặc khung div.VCSortableInPreviewMode (ảnh kèm chữ bên cạnh)
+const TUOITRE_THANHNIEN_BLOCKS = [
+  '[data-role="content"] > p',
+  '[data-role="content"] > h2',
+  '[data-role="content"] > h3',
+  '[data-role="content"] figure',
+  '[data-role="content"] > div.VCSortableInPreviewMode',
+].join(', ')
+
 // Mỗi báo đặt tên file RSS khác nhau, nên map slug chung -> tên file của báo đó
 const SOURCES = [
   {
@@ -22,25 +32,23 @@ const SOURCES = [
     name: 'VnExpress',
     rssBase: 'https://vnexpress.net/rss/',
     feeds: { 'cong-nghe': 'so-hoa' },
-    // Các đoạn văn trên trang bài gốc, dùng cho /news/:id.
+    // Các khối nội dung trên trang bài gốc (đoạn văn, tiêu đề phụ, ảnh), dùng cho /news/:id.
     // VnExpress ghi chú thích ảnh bằng p.Image nên lấy mọi p.Normal (kể cả trong bài ảnh)
-    contentSelector: '.fck_detail p.Normal',
+    blockSelector: '.fck_detail p.Normal, .fck_detail h2, .fck_detail h3, .fck_detail figure',
   },
   {
     id: 'tuoitre',
     name: 'Tuổi Trẻ',
     rssBase: 'https://tuoitre.vn/rss/',
     feeds: { 'cong-nghe': 'nhip-song-so' },
-    // '>' chỉ lấy đoạn văn trực tiếp, bỏ chú thích ảnh nằm trong <figure>
-    contentSelector: '[data-role="content"] > p',
+    blockSelector: TUOITRE_THANHNIEN_BLOCKS,
   },
   {
     id: 'thanhnien',
     name: 'Thanh Niên',
     rssBase: 'https://thanhnien.vn/rss/',
     feeds: { 'kinh-doanh': 'kinh-te' },
-    // '>' chỉ lấy đoạn văn trực tiếp, bỏ chú thích ảnh nằm trong <figure>
-    contentSelector: '[data-role="content"] > p',
+    blockSelector: TUOITRE_THANHNIEN_BLOCKS,
   },
 ]
 
@@ -186,6 +194,64 @@ export async function searchArticles(q) {
   return articles.filter((a) => normalize(`${a.title} ${a.summary}`).includes(phrase))
 }
 
+const cleanText = (text) => text.replace(/\s+/g, ' ').trim()
+
+/** Link ảnh thật: báo hay để ảnh mờ dạng data: trong src và link thật trong data-src (tải chậm) */
+function imageSrc(img) {
+  const src = img.attr('src') ?? ''
+  return src.startsWith('http') ? src : (img.attr('data-src') ?? null)
+}
+
+/**
+ * Đọc trang bài gốc thành danh sách khối theo đúng thứ tự trong bài:
+ * đoạn văn, tiêu đề phụ, ảnh kèm chú thích.
+ */
+function extractBlocks($, selector) {
+  const blocks = []
+  const seenImages = new Set()
+
+  $(selector).each((_, el) => {
+    const $el = $(el)
+    const tag = el.tagName
+
+    if (tag === 'h2' || tag === 'h3') {
+      const text = cleanText($el.text())
+      if (text) blocks.push({ type: 'heading', text })
+      return
+    }
+
+    if (tag === 'p') {
+      // Đoạn chú thích nằm trong khung ảnh thì đã lấy cùng ảnh rồi
+      if ($el.closest('figure').length) return
+      const text = cleanText($el.text())
+      if (text) blocks.push({ type: 'paragraph', text })
+      return
+    }
+
+    // Còn lại là khung ảnh (figure hoặc div chứa ảnh)
+    const img = $el.find('img').first()
+    const url = img.length ? imageSrc(img) : null
+    if (!url || seenImages.has(url)) return
+    seenImages.add(url)
+
+    // Ảnh đầu bài thường trùng ảnh bìa lấy từ RSS (app đã hiện ở trên cùng) nên bỏ qua
+    if (blocks.length === 0) return
+
+    const caption = cleanText($el.find('figcaption').text() || $el.find('p').text())
+    // Tuổi Trẻ, Thanh Niên ghi kích thước gốc trong thuộc tính w, h
+    const w = Number(img.attr('w') ?? img.attr('width'))
+    const h = Number(img.attr('h') ?? img.attr('height'))
+    blocks.push({
+      type: 'image',
+      url,
+      caption: caption || null,
+      aspectRatio: w > 0 && h > 0 ? Math.round((w / h) * 1000) / 1000 : null,
+    })
+  })
+
+  return blocks
+}
+
 /**
  * Lấy bài đầy đủ (ArticleDetail) theo id: tìm link gốc rồi tải trang báo để lấy nội dung.
  * Trả về null nếu không có bài nào mang id này.
@@ -200,20 +266,22 @@ export async function getArticleDetail(id) {
   if (!article) return null
 
   const source = SOURCES.find((s) => s.id === article.source)
-  let content = ''
+  let blocks = []
   try {
     const $ = cheerio.load(await fetchText(article.url))
-    content = $(source.contentSelector)
-      .map((_, el) => $(el).text().replace(/\s+/g, ' ').trim())
-      .get()
-      .filter(Boolean)
-      .join('\n\n')
+    blocks = extractBlocks($, source.blockSelector)
   } catch (err) {
     console.warn('[rss] không tải được bài gốc', article.url, err.message)
   }
 
+  // content giữ dạng chữ thường (phần AI dùng), blocks để app vẽ bài giống trang báo
+  const content = blocks
+    .filter((b) => b.type !== 'image')
+    .map((b) => b.text)
+    .join('\n\n')
+
   // Trang báo đổi giao diện hoặc lỗi mạng: vẫn trả về mô tả ngắn để app hiển thị được
-  const detail = { ...article, content: content || article.summary }
+  const detail = { ...article, content: content || article.summary, blocks }
   // Chỉ lưu khi lấy được nội dung thật, để lần sau còn thử lại
   if (content) detailById.set(id, detail)
   return detail

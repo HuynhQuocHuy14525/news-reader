@@ -15,14 +15,19 @@ Kiểu dữ liệu tương ứng nằm ở `mobile/src/types/`.
 | GET | `/health` | | `{ status: "ok", time }` |
 | GET | `/news` | `category?` (slug), `page?` (mặc định 1), `limit?` (mặc định 20) | `Paginated<Article>` |
 | GET | `/news/search` | `q` (bắt buộc), `page?`, `limit?` | `Paginated<Article>` |
-| GET | `/news/:id` | | `ArticleDetail` (có thêm `content`) |
+| GET | `/news/:id` | | `ArticleDetail` (có thêm `content` và `blocks`) |
 
 `id` do backend tạo từ link bài gốc, nên cùng một bài thì `id` luôn giống nhau.
 
 - Nguồn: VnExpress, Tuổi Trẻ, Thanh Niên. Backend đọc lại RSS mỗi 5 phút.
 - `limit` tối đa 50. `category` sai slug trả về `400`.
 - `/news/search` tìm cả cụm từ trong tiêu đề và mô tả, không phân biệt dấu (`bong da` tìm được "bóng đá").
-- `/news/:id` không có bài thì trả về `404`. Nếu không tải được trang báo gốc, `content` là đoạn mô tả ngắn.
+- `/news/:id` không có bài thì trả về `404`. Nếu không tải được trang báo gốc, `content` là đoạn mô tả ngắn và `blocks` rỗng.
+- `content`: nội dung bài dạng chữ thường, các đoạn cách nhau bằng `\n\n`. Dùng cho AI.
+- `blocks`: nội dung bài theo đúng thứ tự trên trang báo, để app hiển thị. Mỗi khối là một trong 3 loại (ảnh đầu bài trùng ảnh bìa nên không có trong `blocks`):
+  - `{ "type": "paragraph", "text": "..." }`
+  - `{ "type": "heading", "text": "..." }`: tiêu đề phụ giữa bài
+  - `{ "type": "image", "url": "https://...", "caption": "Chú thích" | null, "aspectRatio": 1.5 | null }`: `aspectRatio` là rộng / cao, `null` nếu báo không ghi kích thước
 - Phần AI lấy nội dung bài bằng `getArticleDetail(id)` trong `backend/src/services/rss.service.js` (trả về `null` nếu không có bài).
 
 Ví dụ một `Article`:
