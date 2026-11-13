@@ -1,6 +1,6 @@
 import { Image } from 'expo-image'
 import { openBrowserAsync } from 'expo-web-browser'
-import { Platform, ScrollView } from 'react-native'
+import { ScrollView } from 'react-native'
 import { Button, Spinner, Text, XStack, YStack } from 'tamagui'
 
 import type { ArticleDetail } from '@/types/article'
@@ -9,17 +9,11 @@ import { findCategory } from '../categories'
 import { getErrorMessage } from '../errors'
 import { formatRelativeTime } from '../format'
 import { useArticle } from '../hooks'
+import { ArticleBody, lineHeight } from './ArticleBody'
 import { ErrorState } from './ListStates'
 
 // Cỡ chữ nội dung bài. TODO(B10): thay bằng useFontSize() khi phần Cài đặt của Dũng xong
 const BODY_FONT_SIZE = 17
-/**
- * Khoảng cách dòng = cỡ chữ x hệ số. Trên điện thoại lineHeight tính bằng px,
- * còn trên web một số không có đơn vị được hiểu là hệ số nhân, nên phải tách 2 trường hợp.
- */
-function lineHeight(fontSize: number, ratio: number) {
-  return Platform.OS === 'web' ? ratio : Math.round(fontSize * ratio)
-}
 
 /**
  * Nội dung một bài: ảnh, tiêu đề, nguồn, các đoạn văn, nút mở bài gốc.
@@ -56,14 +50,7 @@ export function ArticleDetailView({ id }: { id: string }) {
         <Text fontWeight="600" fontSize={BODY_FONT_SIZE} lineHeight={lineHeight(BODY_FONT_SIZE, 1.6)}>
           {article.summary}
         </Text>
-        {article.content
-          .split('\n\n')
-          .filter((p) => p !== article.summary)
-          .map((paragraph, i) => (
-            <Text key={i} fontSize={BODY_FONT_SIZE} lineHeight={lineHeight(BODY_FONT_SIZE, 1.6)}>
-              {paragraph}
-            </Text>
-          ))}
+        <ArticleBody article={article} fontSize={BODY_FONT_SIZE} />
 
         {/* TODO(B5): <BookmarkButton article={article} /> khi phần Bài đã lưu của Dũng xong */}
         {/* TODO(B8): nút "Tóm tắt bằng AI" -> router.push('/ai/' + article.id) khi màn AI của Dũng xong */}
