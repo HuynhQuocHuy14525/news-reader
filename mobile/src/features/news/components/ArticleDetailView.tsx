@@ -1,8 +1,11 @@
 import { Image } from 'expo-image'
 import { openBrowserAsync } from 'expo-web-browser'
+import { useEffect } from 'react'
 import { ScrollView } from 'react-native'
 import { Button, Spinner, Text, XStack, YStack } from 'tamagui'
 
+import { BookmarkButton } from '@/features/bookmarks/components/BookmarkButton'
+import { addToHistory } from '@/features/bookmarks/history'
 import type { ArticleDetail } from '@/types/article'
 
 import { findCategory } from '../categories'
@@ -21,6 +24,12 @@ const BODY_FONT_SIZE = 17
  */
 export function ArticleDetailView({ id }: { id: string }) {
   const { data: article, isPending, isError, error, refetch } = useArticle(id)
+
+  // Mở được bài thì ghi vào Lịch sử đọc (B6 của Dũng). Chỉ chạy lại khi sang bài khác
+  const loadedId = article?.id
+  useEffect(() => {
+    if (article) addToHistory(article)
+  }, [loadedId])
 
   if (isPending) {
     return (
@@ -46,13 +55,16 @@ export function ArticleDetailView({ id }: { id: string }) {
         <Text fontSize={24} fontWeight="800" lineHeight={lineHeight(24, 1.3)}>
           {article.title}
         </Text>
+        {/* Đặt nút lưu ngay dưới tiêu đề để không phải cuộn hết bài mới thấy. Chưa đăng nhập thì nút tự mở màn Đăng nhập */}
+        <XStack>
+          <BookmarkButton article={article} />
+        </XStack>
         {/* Đoạn mô tả in đậm như sapo của báo */}
         <Text fontWeight="600" fontSize={BODY_FONT_SIZE} lineHeight={lineHeight(BODY_FONT_SIZE, 1.6)}>
           {article.summary}
         </Text>
         <ArticleBody article={article} fontSize={BODY_FONT_SIZE} />
 
-        {/* TODO(B5): <BookmarkButton article={article} /> khi phần Bài đã lưu của Dũng xong */}
         {/* TODO(B8): nút "Tóm tắt bằng AI" -> router.push('/ai/' + article.id) khi màn AI của Dũng xong */}
 
         <Button mt="2" onPress={() => openBrowserAsync(article.url)}>
