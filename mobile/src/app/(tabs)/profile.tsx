@@ -54,6 +54,9 @@ export default function ProfileScreen() {
         <Button variant="outlined" onPress={() => router.push('/history' as Href)}>
           🕘 Lịch sử đọc
         </Button>
+        <Button variant="outlined" onPress={() => router.push('/settings' as Href)}>
+          ⚙️ Cài đặt
+        </Button>
       </YStack>
     </YStack>
   )
