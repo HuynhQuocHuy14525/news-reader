@@ -39,7 +39,7 @@ Trạng thái: ⬜ chưa làm · 🟡 đang làm / chờ review · ✅ đã merg
 | B7 | Backend AI: `POST /ai/summary`, `POST /ai/chat` | `feature/ai-api` | `backend/src/routes/ai.js`, `backend/src/services/ai.service.js` | ⬜ |
 | B8 | App AI: màn tóm tắt & hỏi đáp (modal) | `feature/ai` | `mobile/src/features/ai/`, `app/ai/[id].tsx` | ⬜ |
 | B9 | Màn cá nhân: thông tin tài khoản, link tới lịch sử, cài đặt, đăng xuất | `feature/profile` | `app/(tabs)/profile.tsx` | ⬜ |
-| B10 | Cài đặt: giao diện sáng/tối, cỡ chữ | `feature/settings` | `app/settings.tsx` | ⬜ |
+| B10 | Cài đặt: giao diện sáng/tối, cỡ chữ | `feature/settings` | `app/settings.tsx` | ✅ |
 | B11 | Animation nút lưu bài | `feature/bookmark-animation` | `mobile/src/features/bookmarks/` | ⬜ |
 | B12 | Chụp ảnh màn hình cho báo cáo | `docs/screenshots` | `docs/screenshots/` | ⬜ |
 
